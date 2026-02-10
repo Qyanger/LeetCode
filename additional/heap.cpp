@@ -8,7 +8,7 @@ using namespace std;
     / \ / \ 
    3  4 5  6
 */
-
+// 重点在于写adjust
 void adjust(vector<int>& arr,int size,int i){
     int left = 2*i + 1;
     int right = 2*i + 2;
@@ -23,9 +23,6 @@ void adjust(vector<int>& arr,int size,int i){
     if(left <= size&&right<= size&&arr[left]>arr[right])
         adjustpos = left;
     
-
-
-
     swap(arr[i] ,arr[adjustpos]);
 
     // int temp = arr[i];
@@ -36,13 +33,31 @@ void adjust(vector<int>& arr,int size,int i){
 
 }
 
+// 改进后的adjust
+void adjustPro(vector<int>& arr,int size,int i){
+    int left = 2*i + 1;
+    int right = 2*i + 2;
+    int adjustpos = i;
+    if(left <= size&&arr[left]>arr[i])
+        adjustpos = left;
+    if(right<= size&&arr[right]>arr[adjustpos])
+        adjustpos = right;
+    if(adjustpos == i)
+        return;        
+    
+    swap(arr[i] ,arr[adjustpos]);
+
+    adjust(arr,size,adjustpos);
+}
+
 void heapsort(vector<int>& arr){
     // 建堆
-    for(int i = arr.size()-1;i>=0;--i){
+    for(int i = (arr.size()-1)/2;i>=0;--i){
         adjust(arr,arr.size()-1,i);
     }
 
     // DeBug
+    
     // for(auto it : arr){
     //     cout << it<<" ";
     // }
